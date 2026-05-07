@@ -1,0 +1,36 @@
+# Compiled binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# The built binary (usually named after your module/project)
+/pokedex
+
+# Test binary and coverage output
+*.test
+*.out
+coverage.html
+
+# Go workspace file (if not intentionally committing it)
+go.work
+go.work.sum
+
+# Dependency vendor directory (if you're not vendoring)
+vendor/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor/IDE
+.idea/
+.vscode/
+*.swp
+*.swopokedex
