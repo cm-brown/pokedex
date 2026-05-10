@@ -9,11 +9,14 @@ import (
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 
+	// Start REPL
 	for {
 		fmt.Println("Pokedex >")
 		scanner.Scan()
 		line := scanner.Text()
 		cleanLine := cleanInput(line)
-		fmt.Printf("Your command was: %s\n", cleanLine[0])
+		if cleanLine[0] == "exit" {
+			commandExit()
+		}
 	}
 }
