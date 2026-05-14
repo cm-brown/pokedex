@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -36,6 +37,18 @@ func getCommands() map[string]cliCommand {
 	}
 }
 
+// LocationArea structure
+type LocationArea struct {
+	Name string `json:"name"`
+	Url  string `json:"url"`
+}
+type LocationAreasResponse struct {
+	Count    int            `json:"count"`
+	Next     string         `json:"next"`
+	Previous string         `json:"previous"`
+	Results  []LocationArea `json:"results"`
+}
+
 // Takes input, removes whitespace and converts to lowercase
 func cleanInput(text string) []string {
 	return strings.Fields(strings.ToLower(text))
@@ -65,10 +78,19 @@ func commandMap() error {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(string(body))
+
+	response := LocationAreasResponse{}
+	if err := json.Unmarshal([]byte(body), &response); err != nil {
+		log.Fatal(err)
+	}
+
+	for _, area := range response.Results {
+		fmt.Println(area.Name)
+	}
 	return nil
 }
