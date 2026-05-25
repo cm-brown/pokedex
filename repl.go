@@ -67,6 +67,11 @@ func getCommands() map[string]cliCommand {
 			description: "Get the previous page of locations",
 			callback:    commandMapb,
 		},
+		"explore": {
+			name: "explore",
+			description: "Use a location area with this command to get a list of pokemon in a given area."
+			callback: commandExplore,
+		},
 		"exit": {
 			name:        "exit",
 			description: "Exit the Pokedex",
