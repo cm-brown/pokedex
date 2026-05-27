@@ -4,14 +4,12 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
-
-	"github.com/cm-brown/pokedex/internal/pokecache"
 )
 
-func (c *Client) GetPokemonList(location string, cache *pokecache.Cache) (RespShallowPokemon, error) {
+func (c *Client) GetPokemonList(location string) (RespShallowPokemon, error) {
 	url := baseURL + "/location-area/" + location
 
-	if cached, ok := cache.Get(url); ok {
+	if cached, ok := c.cache.Get(url); ok {
 		pokemonResp := RespShallowPokemon{}
 		err := json.Unmarshal(cached, &pokemonResp)
 		if err != nil {
@@ -41,5 +39,6 @@ func (c *Client) GetPokemonList(location string, cache *pokecache.Cache) (RespSh
 		return RespShallowPokemon{}, err
 	}
 
+	c.cache.Add(url, dat)
 	return pokemonResp, nil
 }

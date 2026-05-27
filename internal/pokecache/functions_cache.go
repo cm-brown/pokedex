@@ -1,17 +1,21 @@
 package pokecache
 
 import (
+	"sync"
 	"time"
 )
 
-func NewCache(interval time.Duration) *Cache {
+func NewCache(interval time.Duration) Cache {
 	if interval <= 0 {
 		panic("interval must be greater than 0")
 	}
-	c := &Cache{
+	c := Cache{
 		entries: make(map[string]CacheEntry),
+		mutex:   &sync.Mutex{},
 	}
+
 	go c.reapLoop(interval)
+
 	return c
 }
 
@@ -19,7 +23,7 @@ func (c *Cache) Add(key string, val []byte) {
 	c.mutex.Lock()
 	defer c.mutex.Unlock()
 	c.entries[key] = CacheEntry{
-		createdAt: time.Now(),
+		createdAt: time.Now().UTC(),
 		val:       val,
 	}
 }
