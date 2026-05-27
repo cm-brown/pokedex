@@ -18,7 +18,7 @@ type RespShallowPokemon struct {
 	ID        int `json:"id"`
 	Location  struct {
 		Name string `json:"name"`
-		URL  string `json:"url"`
+		URL  string `json:"url"	`
 	} `json:"location"`
 	Name  string `json:"name"`
 	Names []struct {

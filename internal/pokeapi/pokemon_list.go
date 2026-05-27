@@ -8,11 +8,8 @@ import (
 	"github.com/cm-brown/pokedex/internal/pokecache"
 )
 
-func (c *Client) GetPokemonList(location string, pageURL *string, cache *pokecache.Cache) (RespShallowPokemon, error) {
+func (c *Client) GetPokemonList(location string, cache *pokecache.Cache) (RespShallowPokemon, error) {
 	url := baseURL + "/location-area/" + location
-	if pageURL != nil {
-		url = *pageURL
-	}
 
 	if cached, ok := cache.Get(url); ok {
 		pokemonResp := RespShallowPokemon{}
