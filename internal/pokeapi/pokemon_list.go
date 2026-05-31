@@ -6,6 +6,16 @@ import (
 	"net/http"
 )
 
+func ValidPokemon(pokemon string) bool {
+	url := baseURL + "/pokemon/" + pokemon
+	resp, err := http.Get(url)
+	if err != nil {
+		return false
+	}
+	defer resp.Body.Close()
+	return resp.StatusCode == http.StatusOK
+}
+
 func (c *Client) GetPokemonList(location string) (RespShallowPokemon, error) {
 	url := baseURL + "/location-area/" + location
 
