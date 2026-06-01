@@ -6,14 +6,27 @@ import (
 	"net/http"
 )
 
-func ValidPokemon(pokemon string) bool {
+func ValidPokemon(pokemon string) (bool, Pokemon) {
 	url := baseURL + "/pokemon/" + pokemon
+
 	resp, err := http.Get(url)
 	if err != nil {
-		return false
+		return false, Pokemon{}
 	}
 	defer resp.Body.Close()
-	return resp.StatusCode == http.StatusOK
+
+	dat, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return false, Pokemon{}
+	}
+
+	pokemonResp := Pokemon{}
+	err = json.Unmarshal(dat, &pokemonResp)
+	if err != nil {
+		return false, Pokemon{}
+	}
+
+	return resp.StatusCode == http.StatusOK, pokemonResp
 }
 
 func (c *Client) GetPokemonList(location string) (RespShallowPokemon, error) {
